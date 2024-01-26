@@ -33,12 +33,18 @@ jobs:
           ls -all
           tree
 
-          mv *.ino m5stick-nemo.cpp
+          mv m5stick-nemo.ino m5stick-nemo.cpp
       
       - name: cppcheck
         uses: deep5050/cppcheck-action@main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN}}
+      
+      - run: |
+          set -x
+          pwd
+          ls -all
+          tree
   
   compile_sketch:
     name: Compile check
