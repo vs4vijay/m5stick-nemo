@@ -26,11 +26,10 @@ jobs:
 
     env:
       {
-        board.name: "M5Cardputer",
-        board.fqbn: "m5stack:esp32:m5stack_cardputer",
-        board.extra_flags: "-DCARDPUTER",
-        board.libraries: "M5Cardputer IRRemoteESP8266",
-        board.partitions.bootloader_addr: "0x0000",
+        name: "M5Cardputer",
+        fqbn: "m5stack:esp32:m5stack_cardputer",
+        libraries: "M5Cardputer IRRemoteESP8266",
+        bootloader_addr: "0x0000",
       }
 
     steps:
@@ -48,18 +47,15 @@ jobs:
           arduino-cli core search m5stack
           arduino-cli board listall
 
-          arduino-cli lib install ${{ env.board.libraries }} --log-level warn --verbose
+          arduino-cli lib install ${{ env.libraries }} --log-level warn --verbose
 
-      - name: Compile ${{ env.board.name }} Sketch
+      - name: Compile ${{ env.name }} Sketch
         run: |
           set -x
           
-          extra_flags="${{ env.board.extra_flags }}"
-
           arduino-cli compile --fqbn ${{ env.board.fqbn }} -e \
                               --build-property build.partitions=huge_app \
                               --build-property upload.maximum_size=3145728 \
-                              --build-property compiler.cpp.extra_flags="${extra_flags}" \
                               ./m5stick-nemo.ino
   
   build_sketch:
