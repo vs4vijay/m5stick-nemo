@@ -19,9 +19,6 @@ on:
         default: 'M5Cardputer'
         options: ['M5Cardputer', 'M5StickCPlus2', 'M5StickCPlus', 'M5StickC']
 
-env:
-  NEMO_VERSION: ${{ contains(github.ref, 'refs/tags/') && github.ref_name || github.sha }}
-
 jobs:
   compile_sketch:
     name: Build ${{ matrix.board.name }} (${{ matrix.locale }})
@@ -74,6 +71,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      
+      - id: nemo_version
+        name: Get NEMO Version
+        run: |
+          set -x
+
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            version=${{ github.ref_name }}
+          else
+            version="${GITHUB_SHA::7}"
+          fi
+
+          echo "version=${version}" > $GITHUB_OUTPUT
 
       - name: Setup Arduino CLI
         uses: arduino/setup-arduino-cli@v1
@@ -98,7 +108,7 @@ jobs:
         run: |
           set -x
 
-          version="${NEMO_VERSION::7}"
+          version=${{ steps.nemo_version.outputs.version }}
           locale=${{ matrix.locale }}
           language=$(echo "LANGUAGE_${locale//-/_}" | tr '[:lower:]' '[:upper:]')
           
@@ -114,7 +124,7 @@ jobs:
         run: |
           set -x
           
-          version="${NEMO_VERSION::7}"
+          version=${{ steps.nemo_version.outputs.version }}
           locale=${{ matrix.locale }}
           
           if [[ "${locale}" == "en-us" ]]; then
@@ -156,6 +166,7 @@ jobs:
 
     steps:
     - id: nemo_version
+      name: Get NEMO Version
       run: |
         set -x
 
@@ -179,9 +190,9 @@ jobs:
         ls -all
         tree
 
-    - name: Create Release
+    - name: Create Release ${{ steps.nemo_version.outputs.version }}
       uses: softprops/action-gh-release@v1
-      # if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+      if: github.event_name == 'push'
       with:
         name: NEMO Release ${{ steps.nemo_version.outputs.version }}
         tag_name: ${{ steps.nemo_version.outputs.version }}
