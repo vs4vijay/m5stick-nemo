@@ -20,9 +20,25 @@ on:
         options: ['M5Cardputer', 'M5StickCPlus2', 'M5StickCPlus', 'M5StickC']
 
 jobs:
+  lint_cppcheck:
+    name: Lint and cpp check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@v1
+      
+      - name: cppcheck
+        uses: deep5050/cppcheck-action@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN}}
+  
   compile_sketch:
     name: Compile check
     runs-on: ubuntu-latest
+    needs: [lint_cppcheck]
 
     env:
       {
