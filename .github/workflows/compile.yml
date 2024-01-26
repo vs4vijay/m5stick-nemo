@@ -29,7 +29,6 @@ jobs:
         name: "M5Cardputer",
         fqbn: "m5stack:esp32:m5stack_cardputer",
         libraries: "M5Cardputer IRRemoteESP8266",
-        bootloader_addr: "0x0000",
       }
 
     steps:
@@ -53,7 +52,7 @@ jobs:
         run: |
           set -x
           
-          arduino-cli compile --fqbn ${{ env.board.fqbn }} -e \
+          arduino-cli compile --fqbn ${{ env.fqbn }} -e \
                               --build-property build.partitions=huge_app \
                               --build-property upload.maximum_size=3145728 \
                               ./m5stick-nemo.ino
