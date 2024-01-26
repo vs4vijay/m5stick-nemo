@@ -27,8 +27,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Arduino CLI
-        uses: arduino/setup-arduino-cli@v1
+      - run: |
+          set -x
+          pwd
+          ls -all
+          tree
+
+          mv *.ino *.cpp
       
       - name: cppcheck
         uses: deep5050/cppcheck-action@main
