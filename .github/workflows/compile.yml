@@ -111,6 +111,9 @@ jobs:
           version=${{ steps.nemo_version.outputs.version }}
           locale=${{ matrix.locale }}
           language=$(echo "LANGUAGE_${locale//-/_}" | tr '[:lower:]' '[:upper:]')
+
+          echo "ref type: ${{ github.ref_type }}"
+          echo "Building for version: ${version}"
           
           extra_flags="${{ matrix.board.extra_flags }} -DNEMO_VERSION=\"${version}\" -D${language}"
 
