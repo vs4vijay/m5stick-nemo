@@ -164,36 +164,4 @@ ls ./build
 * Reset the EEPROM. On models with EEPROM settings support, use "Clear Settings" from the settings menu, or hold the "Next" button (Side key on StickC models, Tab or Down Arrow on Cardputer) while powering on. 
 * TV-B-Gone's IR LED can be observed through a smart phone camera, emitting a pale purple beam of light. If it seems to be on constantly, or if it never flashes at all during TV-B-Gone operations, something is wrong. Report a bug. There's a known issue with TVBG not working after using Bluetooth spam or random wifi spam.
 * Try viewing wifi lists from several different devices if you suspect wifi spam isn't working. Sometimes, Linux network manager can see networks that smart phones cannot. Please include the results of this testing if reporting wifi spam problems.
-* Apple has patched a lot of Bluetooth stuff since summer 2023. If testing AppleJuice, try some of the AppleTV device types, as they tend to be more reliable due to apple not filtering out weaker bluetooth signals for that platform.
-
-
-## Reporting Bugs
-Please report bugs via GitHub Issues. These are easier to track than comments on social media posts, M5Burner entries, etc. If something isn't working, please include:
-* Firmware version
-* How you installed it (M5Burner, compiled yourself, esptool.py)
-* Hardware 
-* Specifically what feature and options are not working
-* How you determined that it is not working and what testing you did. Include device models and operating systems of what you tested with, and any errors or relevant output from Serial Monitor, if applicable.
-* If you figure out how to fix a bug you identified, PRs are welcome!
-
-## Contributing
-Contributions are welcome. 
-* Please look at the GitHub Issues for the project. There are feature suggestions and bugs reported there, and I'd appreciate PRs that address those.
-* When submitting a Pull Request, please target the develop branch. The easiest way to do this is to fork ALL branches, or to simply create a "develop" branch in your own fork, then use GitHub to Sync your develop branch.
-* Take note of how certain hardware (like the LED and RTC) are defined and gated in the code and try to stick to those patterns. Also, use the definitions for FGCOLOR, BGCOLOR, TEXT_SIZE* and the DISP alias when outputting things to the built-in display.
-* Feel free to add your github to the contributors array as part of your pull request.
-
-Things I'd like help on:
-* Improved localization/translations of the menu, not just NEMO Portal HTML.
-  * Probably needs a new .h file
-  * Be configurable in settings and use an eeprom byte to save the setting
-  * Make gratuitous use of `const` in the implementation so that localization strings are stored only in, and referenced directly from, the flash storage as opposed to using lots of SRAM.
-* Infrared
-  * A new "Region" of TV-B-Gone that's full of additional IR codes that can turn RGB LED strips, air conditioners, fans, sound bars and the like on and off
-  * A way to convert or use flipper zero IR codes from within NEMO's code-base
-* Figure out a way to read and display battery level on the Cardputer and StickC-Plus2 models that lack an AXP192 PMU. The [battery code in the Cardputer factory demo](https://github.com/m5stack/M5Cardputer-UserDemo/tree/main/main/hal/bat) might be a good place to start.
-* TARGETED Deauthentication against a specific access point only. Deauth spamming PRs will be rejected.
-
-Things I probably won't merge in:
-* Bulk wifi deauthentication spamming
-* Bluetooth spam that potentially disrupts health and fitness trackers, smart watches, etc.
+* Apple
